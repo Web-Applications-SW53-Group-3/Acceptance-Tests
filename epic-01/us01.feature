@@ -1,19 +1,24 @@
 Feature: Iniciar sesión
-    Como usuario, quiero iniciar sesión con mi correo y contraseña para un acceso seguro.
 
-Scenario 01: Inicio de sesión exitoso
+  Scenario: Inicio de sesión exitoso
     Given que el usuario ya se encuentra registrado en la plataforma
-    When ingrese su respectivo correo y contraseña
-    Then el sistema permitirá al usuario iniciar sesión correctamente en la plataforma.
+    When ingresa su respectivo correo y contraseña
+    Then el sistema permitirá al usuario iniciar sesión correctamente en la plataforma
 
-Scenario 02: Inicio de sesión fallido
+  Scenario: Inicio de sesión fallido
     Given que el usuario ya se encuentra registrado en la plataforma
-    When ingrese un correo o contraseña incorrecta
+    When ingresa un correo o contraseña incorrecta
     Then el sistema no permitirá al usuario iniciar sesión
-    And se mostrará un mensaje de error indicando que las credenciales son incorrectas.
+    And se mostrará un mensaje de error indicando que las credenciales son incorrectas
 
-Example:
-    | correo             | contraseña   |
-    | usuario@ejemplo.com| contrasena1  |
-    | otro@correo.com    | pass123      |
-    | usuario2@email.com | p455w0rd     |
+  Scenario: Recuperación de Contraseñas
+    Given que el usuario está en la página de inicio de sesión y ha olvidado su contraseña
+    When hace click en el enlace "Olvidé mi contraseña"
+    Then deberá ser redirigido a la página de recuperación de contraseña
+
+    Examples:
+    | Correo Electrónico       | Contraseña | Resultado Esperado            |
+    | user@example.com         | password   | Inicio de Sesión Exitoso      |
+    | another@example.com      | 123456     | Inicio de Sesión Fallido      |
+    | user_without_password    |            | Inicio de Sesión Fallido      |
+    | user_with_wrong_password | wrongpass  | Inicio de Sesión Fallido      |
