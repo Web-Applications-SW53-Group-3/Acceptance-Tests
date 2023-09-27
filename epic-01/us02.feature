@@ -1,19 +1,28 @@
 Feature: Registrar con correo
-    Como usuario quiero poder registrarme con mi correo en la plataforma para agilizar el proceso de registro.
 
-Scenario 01: Registro exitoso
+  Scenario: Registro exitoso
     Given que el cliente quiere registrarse en la plataforma
-    When el cliente ingrese un correo electrónico válido y una contraseña segura
+    When el cliente ingresa un correo electrónico válido y una contraseña segura
     Then el sistema procesará el registro
-    And creará una cuenta asociada con ese correo electrónico.
+    And creará una cuenta asociada con ese correo electrónico
 
-Scenario 02: Registro fallido
-    Given que el cliente quiere registrarse en la plataforma
-    When el cliente ingrese un correo electrónico que ya está en uso
-    Then el sistema no permitirá que el usuario complete el registro
-    And mostrará un mensaje de error indicando que ese correo ya ha sido registrado.
+  Scenario: Registro fallido - Correo Inválido
+    Given que estoy en la página de registro
+    When ingreso el correo electrónico inválido
+    And hago click en el botón de registro
+    Then el sistema procesará el registro
+    And debería ver un mensaje de error que indica que el correo electrónico es inválido
 
-Example:
-    | correo               | contraseña     |
-    | nuevo@ejemplo.com    | password123    |
-    | usuario3@email.com   | securepass456  |
+  Scenario: Registro fallido - Contraseña Inválida
+    Given que estoy en la página de registro
+    When ingreso el correo electrónico válido y la contraseña inválida
+    And hago click en el botón de registro
+    Then el sistema procesará el registro
+    And debería ver un mensaje de error que indica que la contraseña es inválida
+
+    Examples:
+    | Correo Electrónico          | Contraseña   | Resultado Esperado                 |
+    | new_user@example.com        | password123 | Registro Exitoso                    |
+    | existing_user@example.com   | password    | Registro Fallido (Usuario Existente)|
+    | invalid_email               | password123 | Registro Fallido (Correo Inválido)  |
+    | new_user@example.com        | shortpass   | Registro Fallido (Contraseña Corta) |
