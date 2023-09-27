@@ -1,13 +1,22 @@
-Feature: Comunicar entre empleado y chambeador
-    Como empleador quiero tener la opción de definir las características del trabajo directamente con los chambeadores para mantener un medio de comunicación seguro.
+Feature: Comunicar entre Empleado y Chambeador
 
-Scenario 01: Definiendo las características del trabajo
-    Given que el empleador se contactó con el chambeador
-    When se inicie el chat de la app
-    Then podrán acordar las pautas y características del trabajo.
+  Scenario: Inicio de chat sin contacto previo
+    Given que el empleador desea contactar a un chambeador por primera vez
+    When selecciona la opción para iniciar un chat en la aplicación
+    Then se debería iniciar un nuevo chat con el chambeador seleccionado.
 
-Example:
-    | empleado_contactado| chambeador_contactado |
-    | si                 | si                    |
-    | si                 | no                    |
-    | no                 | si                    |
+  Scenario: Registro de la conversación del chat
+    Given que el empleador y el chambeador están comunicándose a través del chat de la aplicación
+    When acuerdan las pautas y características del trabajo
+    Then la aplicación debería registrar la conversación del chat para referencia futura.
+    And se debería iniciar un nuevo chat con el chambeador seleccionado.
+
+  Scenario: Notificaciones de nuevos mensajes en el chat
+    Given que el empleador ha iniciado un chat con un chambeador
+    When el chambeador envía un nuevo mensaje en el chat
+    Then el empleador debería recibir una notificación sobre el nuevo mensaje.
+
+    Examples:
+    | Empleado      | Chambeador   | Mensaje Enviado  | Resultado Esperado             |
+    | EmpresaXYZ    | JuanChambeador | ¡Hola! ¿Estás disponible para un proyecto? | Mensaje Enviado con Éxito |
+    | OtraEmpresa   | MariaChambeadora | Hola, tengo una oferta de trabajo para ti. | Mensaje Enviado con Éxito |
